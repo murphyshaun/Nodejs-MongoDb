@@ -16,7 +16,8 @@ apiUserRouter.route('/user/:userId')
                 .put(userController.replaceUser)//put: replace user
                 .patch(userController.updateUser)//patch: update user
 
-
-
+apiUserRouter.route('/user/:userId/decks')
+        .get(userController.getUserDecks)
+        .post(userController.newUserDeck)
 
 module.exports = apiUserRouter

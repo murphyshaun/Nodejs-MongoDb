@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const Deck = require('../models/Deck')
 
 //use callback
 const getAllUserCallback = (req, res, next) => {
@@ -103,10 +104,45 @@ const updateUser = async (req, res, next) => {
     }
 }
 
+const getUserDecks = async (req, res, next) => {
+    const {userId} = req.params
+
+    //get user
+    //join decks
+    const user = await User.findById(userId).populate('decks')
+
+    return res.status(200).json({decks: user.decks})
+}
+
+const newUserDeck = async (req, res, next) => {
+    const {userId} = req.params
+
+    //create a new deck
+    const newDeck = new Deck(req.body)
+
+    //get user
+    const user = await User.findById(userId)
+
+    //assign user as a deck's owner
+    newDeck.owner = user
+
+    //save the deck
+    await newDeck.save()
+
+    //add deck to user's decks array 'decks'
+    user.decks.push(newDeck._id)
+
+    await user.save()
+
+    return res.status(200).json({deck: newDeck})
+}
+
 module.exports = {
     getAllUser: getAllUserAsync,
     newUser: newUserAsync,
     getUserById,
     replaceUser,
     updateUser,
+    getUserDecks,
+    newUserDeck
 }

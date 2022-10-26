@@ -1,9 +1,14 @@
+const bodyParser = require('body-parser')
 const express = require('express')
 const logger = require('morgan')
 const mongoClient = require('mongoose')
 
 //setup connect mongodb by mongoose
-mongoClient.connect('mongodb://localhost:27017/nodejs-api-starter')
+mongoClient.connect('mongodb://localhost:27017/nodejs-api-starter?authSource=admin',{
+                useNewUrlParser: true,
+                user: 'root',
+                pass: 'password',
+            })
             .then(() => console.log('Connect to db is success'))
             .catch((error) => console.error(`Connect to db is fail ${error}`))
 
@@ -13,7 +18,7 @@ const userRoutes = require('./routes/user')
 
 //Middleware
 app.use(logger('dev'))
-
+app.use(bodyParser.json())
 
 //Routes
 app.use(userRoutes)

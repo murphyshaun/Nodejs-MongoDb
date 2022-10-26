@@ -1,11 +1,17 @@
 const express = require('express')
 const logger = require('morgan')
+const mongoClient = require('mongoose')
+
+//setup connect mongodb by mongoose
+mongoClient.connect('mongodb://localhost:27017/nodejs-api-starter')
+            .then(() => console.log('Connect to db is success'))
+            .catch((error) => console.error(`Connect to db is fail ${error}`))
 
 const app = express()
 
 const userRoutes = require('./routes/user')
 
-//Middlewares
+//Middleware
 app.use(logger('dev'))
 
 

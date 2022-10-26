@@ -1,6 +1,11 @@
+// const Joi = require('@hapi/joi')
+
 const User = require('../models/User')
 const Deck = require('../models/Deck')
 
+// const idSchema = Joi.object().keys({
+//     userId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+// })
 //use callback
 const getAllUserCallback = (req, res, next) => {
     User.find({}, (err, users) => {
@@ -65,7 +70,9 @@ const newUserAsync = async (req, res, next) => {
 
 const getUserById = async (req, res, next) => {
     try {
-        const {userId} = req.params
+        // const validatorResult = idSchema.validate(req.params)
+        // console.log(validatorResult)
+        const {userId} = req.value.params
         const user = await User.findById(userId);
         return res.status(200).json({user})
     } catch (error) {

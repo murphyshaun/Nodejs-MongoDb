@@ -1,10 +1,22 @@
 const express = require('express')
-const router = express.Router()
+const apiUserRouter = express.Router();
 
 const userController = require('../controllers/user')
 
-router.route('/users')
-        .get(userController.getAllUser)
-        .post(userController.newUser)
+// router.route('/users')
+//         .get(userController.getAllUser)
+//         .post(userController.newUser)
 
-module.exports = router
+apiUserRouter.get('/users',userController.getAllUser)
+
+apiUserRouter.post('/create-user',userController.newUser)
+
+apiUserRouter.route('/user/:userId')
+                .get(userController.getUserById)
+                .put(userController.replaceUser)//put: replace user
+                .patch(userController.updateUser)//patch: update user
+
+
+
+
+module.exports = apiUserRouter

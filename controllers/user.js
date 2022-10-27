@@ -60,7 +60,7 @@ const getAllUserAsync = async (req, res, next) => {
 const newUserAsync = async (req, res, next) => {
     //create object model
     try {
-        const newUser = new User(req.body)
+        const newUser = new User(req.value.body)
         await newUser.save()
         return res.status(200).json({newUser})
     } catch (error) {
@@ -84,9 +84,9 @@ const getUserById = async (req, res, next) => {
 const replaceUser = async (req, res, next) => {
     try {
         //enforce new user to old user
-        const {userId} = req.params
+        const {userId} = req.value.params
 
-        const newUser = req.body
+        const newUser = req.value.body
 
         const result = await User.findByIdAndUpdate(userId, newUser);
 
@@ -99,9 +99,9 @@ const replaceUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
     try {
         //enforce new user to old user
-        const {userId} = req.params
+        const {userId} = req.value.params
 
-        const newUser = req.body
+        const newUser = req.value.body
 
         const result = await User.findByIdAndUpdate(userId, newUser);
 
@@ -112,7 +112,7 @@ const updateUser = async (req, res, next) => {
 }
 
 const getUserDecks = async (req, res, next) => {
-    const {userId} = req.params
+    const {userId} = req.value.params
 
     //get user
     //join decks
@@ -122,10 +122,10 @@ const getUserDecks = async (req, res, next) => {
 }
 
 const newUserDeck = async (req, res, next) => {
-    const {userId} = req.params
+    const {userId} = req.value.params
 
     //create a new deck
-    const newDeck = new Deck(req.body)
+    const newDeck = new Deck(req.value.body)
 
     //get user
     const user = await User.findById(userId)

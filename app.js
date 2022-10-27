@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const bodyParser = require('body-parser')
 const express = require('express')
 const logger = require('morgan')
@@ -15,6 +17,7 @@ mongoClient.connect('mongodb://localhost:27017/nodejs-api-starter?authSource=adm
 const app = express()
 
 const userRoutes = require('./routes/user')
+const authenRoutes = require('./routes/authen')
 
 //Middleware
 app.use(logger('dev'))
@@ -22,6 +25,7 @@ app.use(bodyParser.json())
 
 //Routes
 app.use(userRoutes)
+app.use(authenRoutes)
 
 app.get('/', (req, res, next) => {
     return res.status(200).json({

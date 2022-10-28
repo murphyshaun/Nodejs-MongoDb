@@ -62,7 +62,7 @@ const newUserAsync = async (req, res, next) => {
     try {
         const newUser = new User(req.value.body)
         await newUser.save()
-        console.log(newUser);
+
         return res.status(200).json({newUser})
     } catch (error) {
         next(error)
@@ -72,7 +72,6 @@ const newUserAsync = async (req, res, next) => {
 const getUserById = async (req, res, next) => {
     try {
         // const validatorResult = idSchema.validate(req.params)
-        // console.log(validatorResult)
         const {userId} = req.value.params
         const user = await User.findById(userId);
         return res.status(200).json({user})

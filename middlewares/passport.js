@@ -50,7 +50,7 @@ passport.use(new GooglePlusTokenStrategy({
     try {
         //check whether this current user exists in our databases
         const user = await User.findOne({authenGoogleID: profile.id, authType: authType.google})
-        console.log(user);
+
         if (user) return done(null, user)
 
         //if new account

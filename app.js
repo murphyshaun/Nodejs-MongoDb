@@ -42,6 +42,7 @@ app.use((req, res, next) => {
 
 //Error handler function
 app.use((err, req, res, next) => {
+    console.log(err, req);
     const error = app.get('env') === 'development' ? err : {}
 
     const status = error.status || 500

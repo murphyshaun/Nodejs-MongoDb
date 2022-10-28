@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const bcrypt = require('bcryptjs')
-
+const {authType} = require('../enum')
 
 const UserSchema = new Schema({
     firstName: {
@@ -18,7 +18,19 @@ const UserSchema = new Schema({
     },
     password:{
         type: String,
-        required: true,
+    },
+    authenGoogleID: {
+        type: String,
+        default: null
+    },
+    authenFacebook: {
+        type: String,
+        default: null
+    },
+    authType: {
+        type: Number,
+        enum: [authType.local, authType.google, authType.facebook],
+        default: authType.local
     },
     decks: [{
         type: Schema.Types.ObjectId,
@@ -29,6 +41,7 @@ const UserSchema = new Schema({
 
 UserSchema.pre('save', async function(next) {
     try {
+        if (this.authType !== authType.local) next()
         //generate a salt
         const salt = await bcrypt.genSalt(10)
 

@@ -14,12 +14,12 @@ exports.signUp = async (req, res, next) => {
         if (existUser) throw new Error('Email is already in use.')
 
         await newUser.save()
-
-        let token = encodedToken(newUser._id);
+        console.log(newUser);
+        let token = encodedToken(newUser._id)
 
         //token if encrypt then they can returned by json
         // return res.status(200).json({token})
-        res.setHeader('token', token)
+        res.setHeader('Authorization', token)
         return res.status(200).json({success: true})
     } catch (error) {
         next(error)
@@ -27,7 +27,11 @@ exports.signUp = async (req, res, next) => {
     
 }
 exports.signIn = (req, res, next) => {
-    console.log('signin');
+    //assign token
+    const token = encodedToken(req.user._id)
+
+    res.setHeader('Authorization', token)
+    return res.status(200).json({success: true})
 }
 exports.secret = (req, res, next) => {
     console.log('secret');

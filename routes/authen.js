@@ -7,7 +7,7 @@ require('../middlewares/passport')
 
 apiUserRouter.post('/signup', validateBody(schemas.authenSignUpSchema), authenController.signUp)
 
-apiUserRouter.post('/signin', validateBody(schemas.authenSignInSchema), authenController.signIn)
+apiUserRouter.post('/signin', validateBody(schemas.authenSignInSchema), passport.authenticate('local', {session: false}),authenController.signIn)
 
 apiUserRouter.get('/secret', passport.authenticate('jwt', {session: false}), authenController.secret)
 

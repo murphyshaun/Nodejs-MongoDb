@@ -62,6 +62,7 @@ const newUserAsync = async (req, res, next) => {
     try {
         const newUser = new User(req.value.body)
         await newUser.save()
+        console.log(newUser);
         return res.status(200).json({newUser})
     } catch (error) {
         next(error)
